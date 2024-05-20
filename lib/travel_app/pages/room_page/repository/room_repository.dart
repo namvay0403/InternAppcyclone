@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intern_appcyclone/travel_app/pages/room_page/models/room_model.dart';
 
+import '../../global/repository/repository.dart';
+
 class RoomRepository {
   Stream<List<RoomModel>> fetchRoomPageDataWithHotelId(String hotelId) {
     print(hotelId);
@@ -28,4 +30,5 @@ class RoomRepository {
       throw e.toString();
     }
   }
+  
 }

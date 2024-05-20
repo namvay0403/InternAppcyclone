@@ -29,7 +29,7 @@ class GetDataFlightCubit extends Cubit<GetDataFlightState> {
         int.parse(departureDate.split('-')[1]),
         int.parse(departureDate.split('-')[2]));
     try {
-      state.flightData = await FlightRepository().fetchFlightData();
+      state.flightData = await FlightRepository().fetchData();
       List<FlightModel> flightData = [];
       flightData = state.flightData
           .where(
