@@ -13,18 +13,19 @@ import 'widgets/appbar_home.dart';
 import 'widgets/options.dart';
 import 'widgets/places.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatefulWidget  {
   const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<HomePage> {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     var userCubit = context.read<UserCubit>().state;
-    print(userCubit.toJson());
+    print('home build');
 
     return Scaffold(
       backgroundColor: AppColor.backgroundColor,
@@ -78,4 +79,9 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+  
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+  
 }

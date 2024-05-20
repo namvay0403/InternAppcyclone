@@ -34,6 +34,7 @@ class _NavBarState extends State<NavBar> {
   ];
 
   int pageIndex = 0;
+  PageController pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +57,7 @@ class _NavBarState extends State<NavBar> {
             tabBackgroundColor: Colors.grey.shade300,
             padding: const EdgeInsets.all(12),
             onTabChange: (index) {
+              pageController.jumpToPage(index);
               setState(() {
                 pageIndex = index;
               });
@@ -81,7 +83,15 @@ class _NavBarState extends State<NavBar> {
           ),
         ),
       ),
-      body: pages[pageIndex],
+      body: PageView(        /// Wrapping the tabs with PageView
+        controller: pageController,
+        children: pages,
+        onPageChanged: (value) {
+          setState(() {
+            pageIndex = value;
+          });
+        },
+      ),
     );
   }
 }

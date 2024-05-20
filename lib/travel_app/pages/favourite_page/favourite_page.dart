@@ -22,7 +22,7 @@ class FavoritePage extends StatefulWidget {
   State<FavoritePage> createState() => _FavoritePageState();
 }
 
-class _FavoritePageState extends State<FavoritePage> {
+class _FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClientMixin<FavoritePage> {
   late List<HotelModel> wishListHotels = [];
   @override
   void initState() {
@@ -49,6 +49,8 @@ class _FavoritePageState extends State<FavoritePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    print('build favorite page');
     return BlocProvider(
       create: (context) => RemoveWishlistCubit(),
       child: Scaffold(
@@ -251,4 +253,8 @@ class _FavoritePageState extends State<FavoritePage> {
       ),
     );
   }
+  
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
