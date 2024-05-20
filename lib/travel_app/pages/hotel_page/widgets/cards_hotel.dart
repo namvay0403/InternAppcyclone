@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intern_appcyclone/travel_app/pages/hotel_page/cubit/filter_condition/filter_condition_cubit.dart';
@@ -19,9 +21,23 @@ class _CardsHotelState extends State<CardsHotel> {
   ValueNotifier<String> searchText = ValueNotifier('');
   late FilterConditionCubit filterConditionCubit;
 
+  Timer? debounce;
+
+  void onSearchChanged(String query) {
+    if (debounce?.isActive ?? false) debounce?.cancel();
+    debounce = Timer(const Duration(milliseconds: 400), () {
+      filterConditionCubit.state.searchText = query;
+      context.read<GetDataHotelCubit>().getDataWithCondition(
+          searchText: filterConditionCubit.state.searchText,
+          fromPrice: filterConditionCubit.state.minPrice,
+          toPrice: filterConditionCubit.state.maxPrice);
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
+    debounce?.cancel();
     searchText.dispose();
   }
 
@@ -59,13 +75,7 @@ class _CardsHotelState extends State<CardsHotel> {
                       filled: true,
                       fillColor: Colors.white,
                     ),
-                    onChanged: (value) {
-                      filterConditionCubit.state.searchText = value;
-                      context.read<GetDataHotelCubit>().getDataWithCondition(
-                          searchText: filterConditionCubit.state.searchText,
-                          fromPrice: filterConditionCubit.state.minPrice,
-                          toPrice: filterConditionCubit.state.maxPrice);
-                    },
+                    onChanged: onSearchChanged,
                   ),
                 ),
                 const SizedBox(height: 10),
